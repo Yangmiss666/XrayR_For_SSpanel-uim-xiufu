@@ -156,14 +156,14 @@ detect_arch() {
 install_base() {
     if [[ x"${release}" == x"centos" ]]; then
         yum install epel-release -y
-        yum install wget curl unzip tar crontabs socat -y
+        yum install wget curl unzip tar crontabs socat git -y
     elif [[ x"${release}" == x"alpine" ]]; then
         # Alpine 使用 apk，OpenRC 自带 crond（busybox），无需额外 cron 包
         apk update
-        apk add wget curl unzip tar socat bash
+        apk add wget curl unzip tar socat bash git
     else
         apt update -y
-        apt install wget curl unzip tar cron socat -y
+        apt install wget curl unzip tar cron socat git -y
     fi
 }
 
@@ -543,11 +543,6 @@ svc_disable() {
 install_xrayr() {
     local version url
     version="$(normalize_version "${1:-}")"
-    url="https://github.com/${OWNER}/${REPO}/releases/download/${version}/$(detect_arch)"
-
-    log_info "开始安装 XrayR ${version}"
-    echo "架构: $(detect_arch)"
-    echo "下载地址: ${url}"
 
     install_base
 
@@ -559,13 +554,21 @@ install_xrayr() {
     mkdir -p "$INSTALL_DIR"
     cd "$INSTALL_DIR"
 
-    # 下载
-    if ! wget -q --no-check-certificate -O "${INSTALL_DIR}/XrayR" "${url}"; then
-        log_error "下载 XrayR 失败，请检查网络或版本是否存在。"
-        exit 1
+    if [[ -z "$version" ]]; then
+        # 没有 Release，从源码编译
+        install_from_source
+    else
+        url="https://github.com/${OWNER}/${REPO}/releases/download/${version}/$(detect_arch)"
+        log_info "开始安装 XrayR ${version}"
+        echo "架构: $(detect_arch)"
+        echo "下载地址: ${url}"
+        # 下载
+        if ! wget -q --no-check-certificate -O "${INSTALL_DIR}/XrayR" "${url}"; then
+            log_error "下载 XrayR 失败，请检查网络或版本是否存在。"
+            exit 1
+        fi
+        chmod +x "${INSTALL_DIR}/XrayR"
     fi
-
-    chmod +x "${INSTALL_DIR}/XrayR"
 
     # 配置目录
     mkdir -p "$CONFIG_DIR"
