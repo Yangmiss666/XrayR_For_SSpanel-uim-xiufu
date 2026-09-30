@@ -188,6 +188,8 @@ do_start() {
         if [[ x"${release}" == x"alpine" ]]; then
             rc-service XrayR start
         else
+            # 先清理可能存在的熔断状态（start-limit-hit），否则 start 会直接失败
+            systemctl reset-failed XrayR >/dev/null 2>&1 || true
             systemctl start XrayR
         fi
         sleep 2
@@ -217,6 +219,7 @@ do_restart() {
     if [[ x"${release}" == x"alpine" ]]; then
         rc-service XrayR restart
     else
+        systemctl reset-failed XrayR >/dev/null 2>&1 || true
         systemctl restart XrayR
     fi
     sleep 2

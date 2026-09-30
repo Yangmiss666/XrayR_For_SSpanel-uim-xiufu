@@ -2,6 +2,9 @@
 Description=XrayR Service
 After=network.target nss-lookup.target
 Wants=network.target
+# 启动熔断：120 秒内允许启动 8 次（默认是 10 秒 5 次，过于敏感）
+StartLimitIntervalSec=120
+StartLimitBurst=8
 
 [Service]
 User=root
@@ -14,7 +17,9 @@ LimitNOFILE=999999
 WorkingDirectory=/usr/local/XrayR/
 ExecStart=/usr/local/XrayR/XrayR --config /etc/XrayR/config.yml
 Restart=on-failure
-RestartSec=10
+RestartSec=5s
+TimeoutStopSec=15
+KillSignal=SIGTERM
 
 [Install]
 WantedBy=multi-user.target

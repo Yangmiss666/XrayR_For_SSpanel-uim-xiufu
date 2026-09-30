@@ -130,8 +130,10 @@ func run() error {
 	runtime.GC()
 	// Running backend
 	osSignals := make(chan os.Signal, 1)
-	signal.Notify(osSignals, os.Interrupt, os.Kill, syscall.SIGTERM)
-	<-osSignals
+	// 注意：os.Kill(SIGKILL) 无法被捕获，监听无意义，故只注册可处理的信号
+	signal.Notify(osSignals, os.Interrupt, syscall.SIGTERM)
+	sig := <-osSignals
+	log.Infof("Received signal %v, XrayR is shutting down ...", sig)
 
 	return nil
 }
