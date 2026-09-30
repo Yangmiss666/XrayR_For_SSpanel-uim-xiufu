@@ -1,4 +1,4 @@
-# XRayR (SSPanel-UIM 适配版)
+﻿# XRayR (SSPanel-UIM 适配版)
 
 A Xray backend framework that can easily support many panels.
 
@@ -6,14 +6,14 @@ A Xray backend framework that can easily support many panels.
 
 **本项目基于 [XrayR-project/XrayR](https://github.com/XrayR-project/XrayR) 二次开发，主要适配 SSPanel-UIM 前端。**
 
-Find the source code here: [RyanRaw/XrayR_For_SSpanel-uim](https://github.com/RyanRaw/XrayR_For_SSpanel-uim)
+Find the source code here: [Yangmiss666/XrayR_For_SSpanel-uim-xiufu](https://github.com/Yangmiss666/XrayR_For_SSpanel-uim-xiufu)
 
 # 详细使用教程
 
-[教程](https://ryanraw.github.io/XrayR_For_SSpanel-uim/)
+[教程](https://github.com/Yangmiss666/XrayR_For_SSpanel-uim-xiufu/)
 
 # 一键安装
 
 ```
-bash <(curl -Ls https://cdn.jsdelivr.net/gh/RyanRaw/XrayR_For_SSpanel-uim@master/install/install.sh)
+bash <(curl -Ls https://cdn.jsdelivr.net/gh/Yangmiss666/XrayR_For_SSpanel-uim-xiufu@main/install/install.sh)
 ```

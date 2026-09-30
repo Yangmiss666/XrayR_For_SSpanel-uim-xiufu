@@ -1,12 +1,12 @@
-# XrayR — SSPanel-UIM 适配版
+﻿# XrayR — SSPanel-UIM 适配版
 
 [![](https://img.shields.io/badge/TgChat-@XrayR讨论-blue.svg)](https://t.me/XrayR_project)
 [![](https://img.shields.io/badge/Channel-@XrayR通知-blue.svg)](https://t.me/XrayR_channel)
-![](https://img.shields.io/github/stars/RyanRaw/XrayR_For_SSpanel-uim)
-![](https://img.shields.io/github/forks/RyanRaw/XrayR_For_SSpanel-uim)
-![](https://github.com/RyanRaw/XrayR_For_SSpanel-uim/actions/workflows/release.yml/badge.svg)
-![](https://github.com/RyanRaw/XrayR_For_SSpanel-uim/actions/workflows/docker.yml/badge.svg)
-[![Github All Releases](https://img.shields.io/github/downloads/RyanRaw/XrayR_For_SSpanel-uim/total.svg)]()
+![](https://img.shields.io/github/stars/Yangmiss666/XrayR_For_SSpanel-uim-xiufu)
+![](https://img.shields.io/github/forks/Yangmiss666/XrayR_For_SSpanel-uim-xiufu)
+![](https://github.com/Yangmiss666/XrayR_For_SSpanel-uim-xiufu/actions/workflows/release.yml/badge.svg)
+![](https://github.com/Yangmiss666/XrayR_For_SSpanel-uim-xiufu/actions/workflows/docker.yml/badge.svg)
+[![Github All Releases](https://img.shields.io/github/downloads/Yangmiss666/XrayR_For_SSpanel-uim-xiufu/total.svg)]()
 
 [English](README-en.md) | [Iranian](README_Fa.md) | [Vietnamese](README-vi.md)
 
@@ -18,7 +18,7 @@ A Xray backend framework that can easily support many panels.
 
 如果您喜欢本项目，可以右上角点个star+watch，持续关注本项目的进展。
 
-使用教程：[详细使用教程](https://ryanraw.github.io/XrayR_For_SSpanel-uim/)
+使用教程：[详细使用教程](https://github.com/Yangmiss666/XrayR_For_SSpanel-uim-xiufu/)
 ## 免责声明
 
 本项目只是本人个人学习开发并维护，本人不保证任何可用性，也不对使用本软件造成的任何后果负责。
@@ -96,20 +96,20 @@ A Xray backend framework that can easily support many panels.
 ### 一键安装
 
 ```bash
-bash <(curl -Ls https://cdn.jsdelivr.net/gh/RyanRaw/XrayR_For_SSpanel-uim@master/install/install.sh)
+bash <(curl -Ls https://cdn.jsdelivr.net/gh/Yangmiss666/XrayR_For_SSpanel-uim-xiufu@main/install/install.sh)
 ```
 
 ### 使用Docker部署软件
 
-[Docker部署教程](https://ryanraw.github.io/XrayR_For_SSpanel-uim/xrayr-xia-zai-he-an-zhuang/install/docker)
+[Docker部署教程](https://github.com/Yangmiss666/XrayR_For_SSpanel-uim-xiufu/xrayr-xia-zai-he-an-zhuang/install/docker)
 
 ### 手动安装
 
-[手动安装教程](https://ryanraw.github.io/XrayR_For_SSpanel-uim/xrayr-xia-zai-he-an-zhuang/install/manual)
+[手动安装教程](https://github.com/Yangmiss666/XrayR_For_SSpanel-uim-xiufu/xrayr-xia-zai-he-an-zhuang/install/manual)
 
 ## 配置文件及详细使用教程
 
-[详细使用教程](https://ryanraw.github.io/XrayR_For_SSpanel-uim/)
+[详细使用教程](https://github.com/Yangmiss666/XrayR_For_SSpanel-uim-xiufu/)
 
 ## Thanks
 
@@ -121,7 +121,7 @@ bash <(curl -Ls https://cdn.jsdelivr.net/gh/RyanRaw/XrayR_For_SSpanel-uim@master
 
 ## Licence
 
-[Mozilla Public License Version 2.0](https://github.com/RyanRaw/XrayR_For_SSpanel-uim/blob/master/LICENSE)
+[Mozilla Public License Version 2.0](https://github.com/Yangmiss666/XrayR_For_SSpanel-uim-xiufu/blob/main/LICENSE)
 
 ## Telgram
 

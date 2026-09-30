@@ -1,12 +1,12 @@
-# XrayR — Phiên bản tương thích SSPanel-UIM
+﻿# XrayR — Phiên bản tương thích SSPanel-UIM
 
 [![](https://img.shields.io/badge/TgChat-@XrayR讨论-blue.svg)](https://t.me/XrayR_project)
 [![](https://img.shields.io/badge/Channel-@XrayR通知-blue.svg)](https://t.me/XrayR_channel)
-![](https://img.shields.io/github/stars/RyanRaw/XrayR_For_SSpanel-uim)
-![](https://img.shields.io/github/forks/RyanRaw/XrayR_For_SSpanel-uim)
-![](https://github.com/RyanRaw/XrayR_For_SSpanel-uim/actions/workflows/release.yml/badge.svg)
-![](https://github.com/RyanRaw/XrayR_For_SSpanel-uim/actions/workflows/docker.yml/badge.svg)
-[![Github All Releases](https://img.shields.io/github/downloads/RyanRaw/XrayR_For_SSpanel-uim/total.svg)]()
+![](https://img.shields.io/github/stars/Yangmiss666/XrayR_For_SSpanel-uim-xiufu)
+![](https://img.shields.io/github/forks/Yangmiss666/XrayR_For_SSpanel-uim-xiufu)
+![](https://github.com/Yangmiss666/XrayR_For_SSpanel-uim-xiufu/actions/workflows/release.yml/badge.svg)
+![](https://github.com/Yangmiss666/XrayR_For_SSpanel-uim-xiufu/actions/workflows/docker.yml/badge.svg)
+[![Github All Releases](https://img.shields.io/github/downloads/Yangmiss666/XrayR_For_SSpanel-uim-xiufu/total.svg)]()
 
 [Iranian(farsi) README](README_Fa.md) | [English(en) README](README-en.md) | [Chinese(zh) README](README.md)
 
@@ -19,7 +19,7 @@ Khung trở lại dựa trên XRay hỗ trợ các giao thức V2ay, Trojan, Sha
 Nếu bạn thích dự án này, bạn có thể nhấp vào Star+Watch ở góc trên bên phải để tiếp tục chú ý đến tiến trình của dự án này.
 
 ## Tài liệu
-Sử dụng hướng dẫn: [Hướng dẫn chi tiết](https://ryanraw.github.io/XrayR_For_SSpanel-uim/) ( Tiếng Trung )
+Sử dụng hướng dẫn: [Hướng dẫn chi tiết](https://github.com/Yangmiss666/XrayR_For_SSpanel-uim-xiufu/) ( Tiếng Trung )
 
 ## Tuyên bố miễn trừ
 
@@ -98,20 +98,20 @@ Dự án này chỉ là học tập và phát triển và bảo trì cá nhân c
 ### Một cài đặt chính
 
 ```bash
-bash <(curl -Ls https://cdn.jsdelivr.net/gh/RyanRaw/XrayR_For_SSpanel-uim@master/install/install.sh)
+bash <(curl -Ls https://cdn.jsdelivr.net/gh/Yangmiss666/XrayR_For_SSpanel-uim-xiufu@main/install/install.sh)
 ```
 
 ### Sử dụng phần mềm triển khai Docker
 
-[Hướng dẫn cài đặt thông qua Docker](https://ryanraw.github.io/XrayR_For_SSpanel-uim/xrayr-xia-zai-he-an-zhuang/install/docker)
+[Hướng dẫn cài đặt thông qua Docker](https://github.com/Yangmiss666/XrayR_For_SSpanel-uim-xiufu/xrayr-xia-zai-he-an-zhuang/install/docker)
 
 ### Hướng dẫn cài đặt
 
-[Hướng dẫn cài đặt thủ công](https://ryanraw.github.io/XrayR_For_SSpanel-uim/xrayr-xia-zai-he-an-zhuang/install/manual)
+[Hướng dẫn cài đặt thủ công](https://github.com/Yangmiss666/XrayR_For_SSpanel-uim-xiufu/xrayr-xia-zai-he-an-zhuang/install/manual)
 
 ## Tệp cấu hình và hướng dẫn sử dụng chi tiết
 
-[Hướng dẫn chi tiết](https://ryanraw.github.io/XrayR_For_SSpanel-uim/)
+[Hướng dẫn chi tiết](https://github.com/Yangmiss666/XrayR_For_SSpanel-uim-xiufu/)
 
 ## Thanks
 
@@ -123,7 +123,7 @@ bash <(curl -Ls https://cdn.jsdelivr.net/gh/RyanRaw/XrayR_For_SSpanel-uim@master
 
 ## Licence
 
-[Mozilla Public License Version 2.0](https://github.com/RyanRaw/XrayR_For_SSpanel-uim/blob/master/LICENSE)
+[Mozilla Public License Version 2.0](https://github.com/Yangmiss666/XrayR_For_SSpanel-uim-xiufu/blob/main/LICENSE)
 
 ## Telgram
 
