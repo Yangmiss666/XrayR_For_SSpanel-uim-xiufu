@@ -14,10 +14,10 @@ SERVICE_FILE="/etc/systemd/system/XrayR.service"
 OPENRC_FILE="/etc/init.d/XrayR"
 
 # 脚本下载源（jsDelivr 加速 / 源站直连备用）
-SCRIPT_OWNER="RyanRaw"
-SCRIPT_REPO="XrayR_For_SSpanel-uim"
-SCRIPT_CDN_BASE="https://cdn.jsdelivr.net/gh/${SCRIPT_OWNER}/${SCRIPT_REPO}@master"
-SCRIPT_RAW_BASE="https://raw.githubusercontent.com/${SCRIPT_OWNER}/${SCRIPT_REPO}/master"
+SCRIPT_OWNER="Yangmiss666"
+SCRIPT_REPO="XrayR_For_SSpanel-uim-xiufu"
+SCRIPT_CDN_BASE="https://cdn.jsdelivr.net/gh/${SCRIPT_OWNER}/${SCRIPT_REPO}@main"
+SCRIPT_RAW_BASE="https://raw.githubusercontent.com/${SCRIPT_OWNER}/${SCRIPT_REPO}/main"
 
 # 检测系统类型（Alpine 使用 OpenRC，其余使用 systemd）
 if [[ -f /etc/os-release ]]; then
@@ -51,7 +51,7 @@ download_file() {
 purge_jsdelivr() {
     command -v curl >/dev/null 2>&1 || return 0
     curl -fsL --max-time 20 \
-        "https://purge.jsdelivr.net/gh/${SCRIPT_OWNER}/${SCRIPT_REPO}@master/$1" >/dev/null 2>&1 || true
+        "https://purge.jsdelivr.net/gh/${SCRIPT_OWNER}/${SCRIPT_REPO}@main/$1" >/dev/null 2>&1 || true
 }
 
 # ==================== 前置检查 ====================
@@ -147,7 +147,7 @@ confirm() {
 
 # ==================== 操作函数 ====================
 install_xrayr() {
-    bash <(curl -Ls https://cdn.jsdelivr.net/gh/RyanRaw/XrayR_For_SSpanel-uim@master/install/install.sh) "${1:-}"
+    bash <(curl -Ls https://cdn.jsdelivr.net/gh/Yangmiss666/XrayR_For_SSpanel-uim-xiufu@main/install/install.sh) "${1:-}"
 }
 
 update_xrayr() {
@@ -155,7 +155,7 @@ update_xrayr() {
     if [[ $# -lt 2 ]]; then
         echo && read -p "输入指定版本（默认最新版）: " ver
     fi
-    bash <(curl -Ls https://cdn.jsdelivr.net/gh/RyanRaw/XrayR_For_SSpanel-uim@master/install/install.sh) "${ver}"
+    bash <(curl -Ls https://cdn.jsdelivr.net/gh/Yangmiss666/XrayR_For_SSpanel-uim-xiufu@main/install/install.sh) "${ver}"
     log_info "更新完成，请使用 XrayR log 查看运行日志"
     exit
 }
@@ -295,7 +295,7 @@ show_log() {
 }
 
 install_bbr() {
-    bash <(curl -Ls https://cdn.jsdelivr.net/gh/RyanRaw/XrayR_For_SSpanel-uim@master/install/install.sh) optimize
+    bash <(curl -Ls https://cdn.jsdelivr.net/gh/Yangmiss666/XrayR_For_SSpanel-uim-xiufu@main/install/install.sh) optimize
 }
 
 # ==================== 密钥生成 ====================
@@ -460,7 +460,7 @@ show_usage() {
 show_menu() {
     echo -e "
   ${green}XrayR 后端管理脚本 (SSPanel-UIM 适配版)${plain}${red}不适用于docker${plain}
---- https://github.com/RyanRaw/XrayR_For_SSpanel-uim ---
+--- https://github.com/Yangmiss666/XrayR_For_SSpanel-uim-xiufu ---
   ${green}0.${plain} 修改配置
 ————————————————
   ${green}1.${plain} 安装 XrayR

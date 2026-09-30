@@ -7,9 +7,9 @@ yellow='\033[0;33m'
 plain='\033[0m'
 
 # ==================== 配置 ====================
-OWNER="RyanRaw"
-REPO="XrayR_For_SSpanel-uim"
-SCRIPT_REPO="XrayR_For_SSpanel-uim"  # 脚本和 release 在同一个仓库
+OWNER="Yangmiss666"
+REPO="XrayR_For_SSpanel-uim-xiufu"
+SCRIPT_REPO="XrayR_For_SSpanel-uim-xiufu"  # 脚本和 release 在同一个仓库
 
 INSTALL_DIR="/usr/local/XrayR"
 CONFIG_DIR="/etc/XrayR"
@@ -332,14 +332,14 @@ optimize_network() {
 
 # ==================== 安装管理脚本 ====================
 install_manager() {
-    local cdn_url="https://cdn.jsdelivr.net/gh/${OWNER}/${SCRIPT_REPO}@master/install/XrayR.sh"
-    local raw_url="https://raw.githubusercontent.com/${OWNER}/${SCRIPT_REPO}/master/install/XrayR.sh"
+    local cdn_url="https://cdn.jsdelivr.net/gh/${OWNER}/${SCRIPT_REPO}@main/install/XrayR.sh"
+    local raw_url="https://raw.githubusercontent.com/${OWNER}/${SCRIPT_REPO}/main/install/XrayR.sh"
     local tmp url ok=0
     tmp="$(mktemp 2>/dev/null || echo "${MANAGER_BIN}.tmp")"
 
     # 先清 jsDelivr 缓存，否则 @master 可能仍返回旧脚本
     curl -fsL --max-time 20 \
-        "https://purge.jsdelivr.net/gh/${OWNER}/${SCRIPT_REPO}@master/install/XrayR.sh" >/dev/null 2>&1 || true
+        "https://purge.jsdelivr.net/gh/${OWNER}/${SCRIPT_REPO}@main/install/XrayR.sh" >/dev/null 2>&1 || true
 
     # CDN 优先，失败或内容异常时回退源站
     for url in "$cdn_url" "$raw_url"; do
@@ -598,11 +598,11 @@ install_xrayr() {
             log_info "XrayR 启动成功"
         else
             log_warn "XrayR 可能启动失败，请查看日志：XrayR log"
-            log_warn "配置教程：https://ryanraw.github.io/XrayR_For_SSpanel-uim/"
+            log_warn "配置教程：https://github.com/Yangmiss666/XrayR_For_SSpanel-uim-xiufu"
         fi
     else
         log_info "全新安装，请先配置 ${CONFIG_DIR}/config.yml"
-        log_info "配置教程：https://ryanraw.github.io/XrayR_For_SSpanel-uim/"
+        log_info "配置教程：https://github.com/Yangmiss666/XrayR_For_SSpanel-uim-xiufu"
     fi
 
     cd "$cur_dir"
@@ -611,7 +611,7 @@ install_xrayr() {
     echo "使用方法：XrayR              - 显示管理菜单"
     echo "          XrayR start|stop|restart|status|log|update|uninstall|version"
     echo "          或使用小写: xrayr"
-    echo "详细文档: https://ryanraw.github.io/XrayR_For_SSpanel-uim/"
+    echo "详细文档: https://github.com/Yangmiss666/XrayR_For_SSpanel-uim-xiufu"
 }
 
 # ==================== 卸载 ====================

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 # XrayR 配套脚本：SSH 安全设置
-#   bash <(curl -Ls https://cdn.jsdelivr.net/gh/RyanRaw/XrayR_For_SSpanel-uim@master/install/ssh.sh)
+#   bash <(curl -Ls https://cdn.jsdelivr.net/gh/Yangmiss666/XrayR_For_SSpanel-uim-xiufu@main/install/ssh.sh)
 #
 # 功能：修改 SSH 端口 / 生成登录密钥 / 关闭密码登录 / 开启 SSH 转发 / 查看生效配置 / 恢复备份
 #
@@ -361,7 +361,7 @@ change_port() {
     echo -e "       ${green}ssh -p ${port} root@<本机IP>${plain}"
     echo "  2. 确认能登录后再关闭当前连接"
     echo "  3. 如果连不上，在本机控制台执行以下命令回滚："
-    echo -e "       ${green}bash <(curl -Ls https://cdn.jsdelivr.net/gh/RyanRaw/XrayR_For_SSpanel-uim@master/install/ssh.sh)${plain} → 选 [7] 恢复备份"
+    echo -e "       ${green}bash <(curl -Ls https://cdn.jsdelivr.net/gh/Yangmiss666/XrayR_For_SSpanel-uim-xiufu@main/install/ssh.sh)${plain} → 选 [7] 恢复备份"
     echo "  4. 云服务器还需在控制台「安全组」放行 TCP ${port}"
     log_warn "═══════════════════════════════════════"
 }
@@ -540,7 +540,7 @@ show_keysetup_hint() {
     echo -e "       ${green}ssh -i <你的私钥> root@<本机IP>${plain}"
     echo "  2. 确认能登录后再关闭当前连接"
     echo "  3. 若登不上，在本机控制台执行以下命令回滚："
-    echo -e "       ${green}bash <(curl -Ls https://cdn.jsdelivr.net/gh/RyanRaw/XrayR_For_SSpanel-uim@master/install/ssh.sh)${plain} → 选 [7] 恢复备份"
+    echo -e "       ${green}bash <(curl -Ls https://cdn.jsdelivr.net/gh/Yangmiss666/XrayR_For_SSpanel-uim-xiufu@main/install/ssh.sh)${plain} → 选 [7] 恢复备份"
     echo ""
     echo "  当前生效值："
     printf "    %-46s %s\n" "公钥登录 (pubkeyauthentication)"   "$(effective_of pubkeyauthentication)"
