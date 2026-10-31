@@ -693,6 +693,13 @@ func (c *APIClient) ParseUserListResponse(userInfoResponse *[]UserResponse) (*[]
 	var speedLimit uint64 = 0
 	var userList []api.UserInfo
 	for _, user := range *userInfoResponse {
+		// V2ray / Trojan 用 UUID 作为用户标识（VLESS 的 id、Trojan 的 password），
+		// 空 UUID 会让 xray 构建入站时报 invalid UUID 并让整个节点退出，这里跳过并记录。
+		if (c.NodeType == "V2ray" || c.NodeType == "Trojan") && strings.TrimSpace(user.UUID) == "" {
+			log.Printf("Skip user %d: empty uuid", user.ID)
+			continue
+		}
+
 		if c.DeviceLimit > 0 {
 			deviceLimit = c.DeviceLimit
 		} else {
@@ -775,13 +782,18 @@ func (c *APIClient) ParseSSPanelNodeInfo(nodeInfoResponse *NodeInfoResponse) (*a
 		transportProtocol = "tcp"
 	case "V2ray":
 		transportProtocol = nodeConfig.Network
+		if transportProtocol == "" {
+			transportProtocol = "tcp"
+		}
 
 		tlsType := nodeConfig.Security
 		if tlsType == "tls" || tlsType == "xtls" {
 			enableTLS = true
 		}
 
-		if nodeConfig.EnableVless == "1" {
+		// 面板可能不下发 enable_vless（例如按 sort=12 区分的 VLESS 节点），
+		// 此时回退到节点本地 config.yml 的 EnableVless。
+		if nodeConfig.EnableVless == "1" || strings.EqualFold(nodeConfig.EnableVless, "true") || c.EnableVless {
 			enableVless = true
 		}
 	case "Trojan":

@@ -69,6 +69,11 @@ func (c *CustomConfig) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
+	// 部分面板把端口下发成数字（如 "offset_port_node": 443），这里统一归一成字符串
+	if v, ok := raw["offset_port_node"]; ok {
+		raw["offset_port_node"] = normalizeJSONScalarToString(v)
+	}
+
 	const realityOptsPrefix = "reality-opts."
 
 	// 先取出已经写成嵌套对象的 reality-opts
@@ -107,6 +112,38 @@ func (c *CustomConfig) UnmarshalJSON(data []byte) error {
 		opts[field] = v
 	}
 
+	// SSPanel 等面板把 REALITY 参数放在嵌套的 reality 对象里，并混有 public_key /
+	// fingerprint 这类仅供客户端使用的字段。这里只提取服务端需要的字段，按 reality-opts 的键名并入。
+	if v, ok := raw["reality"]; ok {
+		delete(raw, "reality")
+		if nested := parseJSONObject(v); nested != nil {
+			merged = mergeNestedREALITY(opts, nested) || merged
+		}
+	}
+
+	// 面板把 xhttp 参数放在嵌套对象里，而服务端读取的是顶层 path / host / mode
+	if v, ok := raw["xhttp"]; ok {
+		delete(raw, "xhttp")
+		if nested := parseJSONObject(v); nested != nil {
+			for _, key := range []string{"path", "host", "mode"} {
+				if b, ok := nested[key]; ok {
+					if _, exists := raw[key]; !exists {
+						raw[key] = b
+					}
+				}
+			}
+		}
+	}
+
+	// REALITY 面板通常只下发 security: reality，不会额外写 enable_reality
+	if v, ok := raw["security"]; ok {
+		if strings.EqualFold(strings.Trim(strings.TrimSpace(string(v)), `"`), "reality") {
+			if _, exists := raw["enable_reality"]; !exists {
+				raw["enable_reality"] = json.RawMessage("true")
+			}
+		}
+	}
+
 	if merged {
 		b, err := json.Marshal(opts)
 		if err != nil {
@@ -128,11 +165,119 @@ func (c *CustomConfig) UnmarshalJSON(data []byte) error {
 		raw["allow_insecure"] = normalizeJSONBoolToString(v)
 	}
 
+	// 面板会把 tls 写成对象（server_name / alpn / fingerprint 等），
+	// 这些只是客户端订阅参数，服务端用不到；结构体字段是 string，
+	// 非字符串写法直接丢弃，避免整段 custom_config 解析失败。
+	if v, ok := raw["tls"]; ok && !strings.HasPrefix(strings.TrimSpace(string(v)), `"`) {
+		delete(raw, "tls")
+	}
+
 	b, err := json.Marshal(raw)
 	if err != nil {
 		return err
 	}
 	return json.Unmarshal(b, (*plain)(c))
+}
+
+// parseJSONObject 解析 JSON 对象；不是对象时返回 nil。
+func parseJSONObject(raw json.RawMessage) map[string]json.RawMessage {
+	var obj map[string]json.RawMessage
+	if err := json.Unmarshal(raw, &obj); err != nil {
+		return nil
+	}
+	return obj
+}
+
+// normalizeJSONScalarToString 把数字等标量统一转成 JSON 字符串，字符串原样保留。
+func normalizeJSONScalarToString(raw json.RawMessage) json.RawMessage {
+	s := strings.TrimSpace(string(raw))
+	if s == "" || s == "null" {
+		return json.RawMessage(`""`)
+	}
+	if strings.HasPrefix(s, `"`) {
+		return raw
+	}
+	return json.RawMessage(`"` + strings.Trim(s, `"`) + `"`)
+}
+
+// jsonStringToArray 把 JSON 字符串转成单元素数组，已经是数组则原样返回。
+func jsonStringToArray(raw json.RawMessage) json.RawMessage {
+	s := strings.TrimSpace(string(raw))
+	if strings.HasPrefix(s, "[") {
+		return raw
+	}
+	if s == "" || s == "null" {
+		return json.RawMessage("[]")
+	}
+	return json.RawMessage("[" + s + "]")
+}
+
+// firstJSONArrayString 取 JSON 字符串数组的第一个元素，非数组返回空串。
+func firstJSONArrayString(raw json.RawMessage) string {
+	var arr []string
+	if err := json.Unmarshal(raw, &arr); err != nil || len(arr) == 0 {
+		return ""
+	}
+	return arr[0]
+}
+
+// mergeNestedREALITY 把嵌套 reality 对象的字段按 reality-opts 的键名并入 opts，
+// 已存在的字段不覆盖；public_key / fingerprint / spider_x 等仅客户端使用的字段直接忽略。
+// 返回值表示是否写入了新字段。
+func mergeNestedREALITY(opts, nested map[string]json.RawMessage) bool {
+	changed := false
+	set := func(key string, value json.RawMessage) {
+		if _, exists := opts[key]; exists {
+			return
+		}
+		opts[key] = value
+		changed = true
+	}
+
+	// server_names：优先数组，其次单值 server_name / sni
+	if v, ok := nested["server_names"]; ok {
+		set("server_names", jsonStringToArray(v))
+	} else if v, ok := nested["server_name"]; ok {
+		set("server_names", jsonStringToArray(v))
+	} else if v, ok := nested["sni"]; ok {
+		set("server_names", jsonStringToArray(v))
+	}
+
+	// short_ids：优先数组，其次单值 short_id
+	if v, ok := nested["short_ids"]; ok {
+		set("short_ids", jsonStringToArray(v))
+	} else if v, ok := nested["short_id"]; ok {
+		set("short_ids", jsonStringToArray(v))
+	}
+
+	for _, key := range []string{
+		"private_key",
+		"dest",
+		"proxy_protocol_ver",
+		"min_client_ver",
+		"max_client_ver",
+		"max_time_diff",
+		"show",
+		"mldsa65Seed",
+		"limit_fallback_upload",
+		"limit_fallback_download",
+	} {
+		if v, ok := nested[key]; ok {
+			set(key, v)
+		}
+	}
+
+	// 面板一般只给 server_name 不给 dest，按 REALITY 惯例用 sni:443 兜底
+	if _, exists := opts["dest"]; !exists {
+		if names, ok := opts["server_names"]; ok {
+			if first := firstJSONArrayString(names); first != "" && !strings.Contains(first, ":") {
+				opts["dest"] = json.RawMessage(`"` + first + `:443"`)
+				changed = true
+			}
+		}
+	}
+
+	return changed
 }
 
 // realityFlatSnakeKeys 是 reality-opts 内部键名被平铺到 custom_config 顶层时的写法。
