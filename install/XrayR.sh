@@ -381,11 +381,12 @@ update_shell() {
     tmp="$(mktemp 2>/dev/null || echo "/tmp/XrayR.sh.$$")"
 
     log_info "正在拉取最新管理脚本..."
-    # 先清 jsDelivr 缓存，否则 @master 可能仍返回旧内容
+    # 顺手清一下 jsDelivr 缓存，避免回退到 CDN 时拿到旧内容
     purge_jsdelivr "install/XrayR.sh"
 
-    # CDN 优先，失败或内容异常时回退源站
-    for url in "${SCRIPT_CDN_BASE}/install/XrayR.sh" "${SCRIPT_RAW_BASE}/install/XrayR.sh"; do
+    # 优先源站 raw（无 CDN 缓存），失败或内容异常时再回退 jsDelivr。
+    # 之前 CDN 优先会拿到旧缓存，升级后脚本仍是旧版。
+    for url in "${SCRIPT_RAW_BASE}/install/XrayR.sh" "${SCRIPT_CDN_BASE}/install/XrayR.sh"; do
         if download_file "$url" "$tmp" && [[ -s "$tmp" ]] && bash -n "$tmp" 2>/dev/null; then
             ok=1
             break
