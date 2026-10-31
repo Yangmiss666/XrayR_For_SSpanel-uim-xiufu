@@ -60,7 +60,15 @@ need_root() {
 }
 
 before_show_menu() {
-    echo && echo -n -e "${yellow}按回车返回主菜单: ${plain}" && read temp
+    echo
+    echo -n -e "${yellow}按回车返回主菜单: ${plain}"
+    # 终端关闭 / stdin 结束时 read 会失败，此时必须退出，
+    # 否则会在无输入的情况下反复回到菜单并重复上一次操作。
+    if ! read -r temp; then
+        echo
+        log_info "输入已结束，退出。"
+        exit 0
+    fi
     show_menu
 }
 
@@ -139,8 +147,11 @@ run_binary() {
 
 # ==================== 确认 ====================
 confirm() {
-    local prompt="$1" default="$2"
-    echo && read -p "$prompt [默认$default]: " temp
+    local prompt="$1" default="$2" temp
+    echo
+    if ! read -r -p "$prompt [默认$default]: " temp; then
+        return 1
+    fi
     [[ x"${temp}" == x"" ]] && temp=$default
     [[ x"${temp}" == x"y" || x"${temp}" == x"Y" ]]
 }
@@ -169,7 +180,10 @@ edit_config() {
         0) log_info "XrayR 状态: 已运行" ;;
         1)
             echo -e "检测到 XrayR 自动重启失败，是否查看日志？[Y/n]"
-            read -e -p "(默认: y): " yn
+            yn=""
+            if ! read -r -e -p "(默认: y): " yn; then
+                yn="n"
+            fi
             [[ -z ${yn} ]] && yn="y"
             [[ ${yn} == [Yy] ]] && show_log
             ;;
@@ -491,7 +505,13 @@ show_menu() {
  ${green}q.${plain} 退出
 "
     show_status
-    echo && read -p "请输入选择 [0-16]，或 q 退出: " num
+    echo
+    # read 在 EOF 时会保留 num 的上一次值，导致终端关闭后不断重复上一次操作
+    if ! read -r -p "请输入选择 [0-16]，或 q 退出: " num; then
+        echo
+        log_info "输入已结束，退出。"
+        exit 0
+    fi
 
     case "${num}" in
         0) edit_config; before_show_menu ;;
@@ -520,6 +540,12 @@ show_menu() {
 main() {
     if [[ $# == 0 ]]; then
         need_root
+        # 非交互式终端（stdin 被重定向 / 终端已关闭）直接提示用法并退出，
+        # 避免 read 反复失败导致菜单无限循环、重复执行上一次操作。
+        if [[ ! -t 0 ]]; then
+            log_error "当前不是交互式终端，请使用: XrayR start|stop|restart|status|log|config"
+            return 1
+        fi
         show_menu
         return 0
     fi
